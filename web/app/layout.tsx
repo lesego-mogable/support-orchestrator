@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Support Orchestrator",
-  description: "Multi-agent customer support powered by Azure OpenAI",
+  title: "Multi-Agent Support",
+  description: "Multi-agent customer support powered by Azure OpenAI · Semantic Kernel · Cosmos DB",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-gray-950 text-gray-100 antialiased">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
