@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+.venv/
+env/
+
+# Azure Functions
+api/local.settings.json
+.python_packages/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Next.js
+web/.next/
+web/out/
+web/node_modules/
+web/.env.local
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cosmos DB emulator certificate
+emulatorcert.crt
