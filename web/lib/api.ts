@@ -6,11 +6,21 @@ export interface ChatMessage {
   agent?: string;
 }
 
+export interface ToolCallTrace {
+  fn: string;
+  result: string;
+  ms: number;
+}
+
 export interface ChatResponse {
   answer: string;
   agent: string;
+  agentId: string;
   intentReason: string;
   sessionId: string;
+  pipelineSteps: Array<{ label: string; detail: string }>;
+  agentTraces: Record<string, ToolCallTrace[]>;
+  totalMs: number;
 }
 
 export async function createSession(): Promise<string> {

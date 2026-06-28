@@ -1,12 +1,3 @@
-"""
-Azure Functions v2 entry point.
-
-Functions:
-  POST /api/sessions               — create a new chat session
-  POST /api/sessions/{id}/chat     — send a message, get a routed response
-  GET  /api/sessions/{id}          — retrieve conversation history
-  GET  /api/health                 — liveness check
-"""
 import json
 import uuid
 import logging
@@ -45,7 +36,6 @@ def _json_response(body: dict, status_code: int = 200) -> func.HttpResponse:
 async def create_session_fn(req: func.HttpRequest) -> func.HttpResponse:
     if req.method == "OPTIONS":
         return func.HttpResponse(status_code=204, headers=_cors_headers())
-
     session_id = str(uuid.uuid4())
     await create_session(session_id)
     return _json_response({"sessionId": session_id}, 201)
@@ -55,7 +45,6 @@ async def create_session_fn(req: func.HttpRequest) -> func.HttpResponse:
 async def get_session_fn(req: func.HttpRequest) -> func.HttpResponse:
     if req.method == "OPTIONS":
         return func.HttpResponse(status_code=204, headers=_cors_headers())
-
     session_id = req.route_params.get("session_id")
     session = await get_session(session_id)
     if not session:
@@ -93,17 +82,20 @@ async def chat_fn(req: func.HttpRequest) -> func.HttpResponse:
 
     history.append({"role": "user", "content": user_message})
     history.append({"role": "assistant", "content": result["answer"], "agent": result["agent"]})
-
     await upsert_session(session_id, history, result["agent"])
 
     return _json_response({
         "answer": result["answer"],
         "agent": result["agent"],
+        "agentId": result["agentId"],
         "intentReason": result["intent_reason"],
         "sessionId": session_id,
+        "pipelineSteps": result["pipelineSteps"],
+        "agentTraces": result["agentTraces"],
+        "totalMs": result["totalMs"],
     })
 
 
 @app.route(route="health", methods=["GET"])
 async def health_fn(req: func.HttpRequest) -> func.HttpResponse:
-    return _json_response({"status": "healthy", "version": "1.0.0"})
+    return _json_response({"status": "healthy", "version": "2.0.0"})
