@@ -353,6 +353,21 @@ export default function ChatWindow({ user, onLogout }: { user: AuthUser | null; 
           New Chat
         </button>
 
+        {/* Knowledge Base link */}
+        <a
+          href="http://localhost:3002/documents"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: "flex", alignItems: "center", gap: "6px", padding: "5px 12px", borderRadius: "6px", background: "transparent", border: "1px solid #1e3a5f", color: "#4a7fa5", font: "500 11px 'Space Grotesk'", cursor: "pointer", transition: "all 0.2s", flexShrink: 0, textDecoration: "none" }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#7c3aed"; e.currentTarget.style.color = "#c4b5fd"; e.currentTarget.style.background = "rgba(124,58,237,0.08)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1e3a5f"; e.currentTarget.style.color = "#4a7fa5"; e.currentTarget.style.background = "transparent"; }}
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+          </svg>
+          Knowledge Base
+        </a>
+
         {/* Stats */}
         <div style={{ display: "flex", gap: "18px", alignItems: "center" }}>
           <div style={{ font: "400 10px 'JetBrains Mono'", color: "#4a7fa5" }}>SESSION <span style={{ color: "#7ca4c4" }}>{displaySessionId}</span></div>

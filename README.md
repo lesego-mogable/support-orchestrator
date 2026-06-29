@@ -276,6 +276,7 @@ All specialist agents share `base_agent.py`, which builds the Semantic Kernel ke
 | Key | Description |
 |---|---|
 | `NEXT_PUBLIC_API_URL` | Functions base URL (default: `http://localhost:7071/api`) |
+| `NEXT_PUBLIC_RAG_ENGINE_URL` | RAG engine document upload URL (default: `http://localhost:3000/documents`) |
 
 ---
 
