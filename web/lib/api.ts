@@ -1,5 +1,38 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:7071/api";
 
+export interface AuthUser {
+  id: string;
+  email: string;
+  name: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: AuthUser;
+}
+
+export async function signup(name: string, email: string, password: string): Promise<AuthResponse> {
+  const res = await fetch(`${API_BASE}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, password }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error ?? "Signup failed");
+  return data;
+}
+
+export async function login(email: string, password: string): Promise<AuthResponse> {
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error ?? "Login failed");
+  return data;
+}
+
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;

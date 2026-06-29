@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { createSession, sendMessage } from "@/lib/api";
+import { createSession, sendMessage, type AuthUser } from "@/lib/api";
 import { AGENT_DEFS, AGENT_ORDER, hexToRgb, type AgentId, type AgentStatus } from "@/lib/mockFlows";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -180,7 +180,7 @@ function AgentCard({ id, status, traces, isExpanded, onToggle }: {
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 
-export default function ChatWindow() {
+export default function ChatWindow({ user, onLogout }: { user: AuthUser | null; onLogout: () => void }) {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [inputValue, setInputValue] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -360,6 +360,31 @@ export default function ChatWindow() {
           <div style={{ width: "1px", height: "18px", background: "#1e3a5f" }} />
           <div style={{ font: "400 10px 'JetBrains Mono'", color: "#4a7fa5", letterSpacing: "0.04em" }}>7 AGENTS READY</div>
         </div>
+
+        <div style={{ width: "1px", height: "20px", background: "#1e3a5f", flexShrink: 0 }} />
+
+        {/* User + logout */}
+        {user && (
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+            <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg,#0ea5e9,#6366f1)", display: "flex", alignItems: "center", justifyContent: "center", font: "600 11px 'Space Grotesk'", color: "#fff", flexShrink: 0 }}>
+              {(user.name || user.email).charAt(0).toUpperCase()}
+            </div>
+            <div style={{ font: "400 11px 'Space Grotesk'", color: "#7ca4c4", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {user.name || user.email}
+            </div>
+            <button
+              onClick={onLogout}
+              title="Sign out"
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "26px", height: "26px", borderRadius: "6px", background: "transparent", border: "1px solid #1e3a5f", color: "#4a7fa5", cursor: "pointer", transition: "all 0.2s", flexShrink: 0 }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#ef4444"; e.currentTarget.style.color = "#ef4444"; e.currentTarget.style.background = "rgba(239,68,68,0.07)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1e3a5f"; e.currentTarget.style.color = "#4a7fa5"; e.currentTarget.style.background = "transparent"; }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── MAIN BODY ── */}
